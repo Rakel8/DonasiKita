@@ -2,6 +2,8 @@
 
 Laravel + Blade app untuk kampanye dan donasi online dengan integrasi Midtrans dan dukungan PWA.
 
+**Repository:** https://github.com/Rakel8/DonasiKita.git
+
 ## Fitur Utama
 - Kampanye publik: daftar kampanye, detail kampanye, progress bar, gambar.
 - Donasi: multi-step form, pilihan nominal, catatan, pembayaran via Midtrans Snap (sandbox).
@@ -25,7 +27,7 @@ Laravel + Blade app untuk kampanye dan donasi online dengan integrasi Midtrans d
 ## Cara Menjalankan (Lokal)
 1) Clone repo
 ```bash
-git clone <url-repo>
+git clone https://github.com/Rakel8/DonasiKita.git
 cd DonasiKita
 composer install
 ```
@@ -65,6 +67,10 @@ php artisan migrate --seed
 ```bash
 php artisan serve
 ```
+
+Akses aplikasi di browser:
+- **Landing & Kampanye:** http://127.0.0.1:8000/
+- **Admin Panel:** http://127.0.0.1:8000/admin/login
 
 ## Route Utama
 - `/` landing + kampanye terbaru
