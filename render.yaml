@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: donasikita
+    env: php
+    plan: free
+    region: singapore
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+    startCommand: |
+      bash -c "
+        cd /opt/render/project/src &&
+        if [ ! -f /var/data/database.sqlite ]; then touch /var/data/database.sqlite; fi &&
+        php artisan migrate --force || true &&
+        php -S 0.0.0.0:$PORT -t public public/index.php
+      "
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_DATABASE
+        value: /var/data/database.sqlite
+      - key: MIDTRANS_IS_PRODUCTION
+        value: "false"
