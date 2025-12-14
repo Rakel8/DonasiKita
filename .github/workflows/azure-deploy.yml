@@ -63,9 +63,14 @@ jobs:
           -x "tailwind.config.js" \
           -x "postcss.config.js"
 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
+    - name: Azure Login
+      uses: azure/login@v1
       with:
-        app-name: 'donasikita-rakel'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: deploy.zip
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to Azure Web App
+      run: |
+        az webapp deployment source config-zip \
+          --resource-group DonasiKita-rg \
+          --name donasikita-rakel \
+          --src deploy.zip
