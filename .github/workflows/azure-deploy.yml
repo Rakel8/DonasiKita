@@ -1,0 +1,71 @@
+name: Deploy to Azure App Service
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, xml, ctype, json, bcmath, pdo_sqlite, sqlite3
+        coverage: none
+
+    - name: Install Composer dependencies
+      run: composer install --optimize-autoloader --no-dev --prefer-dist
+
+    - name: Create storage directories
+      run: |
+        mkdir -p storage/framework/{sessions,views,cache/data}
+        mkdir -p storage/logs
+        mkdir -p bootstrap/cache
+        chmod -R 775 storage bootstrap/cache
+
+    - name: Create .gitkeep files
+      run: |
+        touch storage/logs/.gitkeep
+        touch storage/framework/sessions/.gitkeep
+        touch storage/framework/views/.gitkeep
+        touch storage/framework/cache/.gitkeep
+        touch storage/framework/cache/data/.gitkeep
+        touch bootstrap/cache/.gitkeep
+
+    - name: Ensure SQLite database exists
+      run: |
+        if [ ! -f database/database.sqlite ]; then
+          touch database/database.sqlite
+        fi
+
+    - name: Create deployment package
+      run: |
+        zip -r deploy.zip . \
+          -x ".git/*" \
+          -x ".github/*" \
+          -x "node_modules/*" \
+          -x "tests/*" \
+          -x ".env*" \
+          -x "*.md" \
+          -x ".gitignore" \
+          -x ".editorconfig" \
+          -x "phpunit.xml" \
+          -x "vite.config.js" \
+          -x "package*.json" \
+          -x "tailwind.config.js" \
+          -x "postcss.config.js"
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'donasikita-rakel'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: deploy.zip
