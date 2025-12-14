@@ -24,6 +24,13 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --optimize-autoloader --no-dev --prefer-dist
 
+    - name: Clear Laravel caches
+      run: |
+        php artisan config:clear
+        php artisan route:clear
+        php artisan cache:clear
+        php artisan view:clear
+
     - name: Create storage directories
       run: |
         mkdir -p storage/framework/{sessions,views,cache/data}
