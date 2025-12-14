@@ -26,6 +26,12 @@ jobs:
         composer install --optimize-autoloader --no-dev --prefer-dist --ignore-platform-reqs --no-scripts
         composer dump-autoload --optimize --no-dev
 
+    - name: Ensure SQLite database exists
+      run: |
+        if [ ! -f database/database.sqlite ]; then
+          touch database/database.sqlite
+        fi
+
     - name: Clear Laravel caches
       run: |
         php artisan config:clear
