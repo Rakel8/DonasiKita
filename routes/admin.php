@@ -39,5 +39,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/donors', [DonorAdminController::class, 'index'])->name('admin.donors.index');
         Route::get('/donors/{email}', [DonorAdminController::class, 'show'])->name('admin.donors.show');
         Route::get('/donors/export', [DonorAdminController::class, 'export'])->name('admin.donors.export');
+
+        
     });
 });

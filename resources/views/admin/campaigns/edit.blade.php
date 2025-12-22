@@ -436,12 +436,12 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ route('admin.donations.index') }}">
                     <i class="fas fa-credit-card"></i> Donasi
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ route('admin.donors.index') }}">
                     <i class="fas fa-users"></i> Donatur
                 </a>
             </li>

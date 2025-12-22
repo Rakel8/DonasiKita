@@ -36,6 +36,7 @@
         opacity: 0.9;
     }
     .stat-card .value {
+            
         font-size: 24px;
         font-weight: 700;
     }

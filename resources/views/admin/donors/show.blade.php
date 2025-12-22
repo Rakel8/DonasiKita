@@ -143,6 +143,32 @@
         color: #155724;
     }
 
+    /* Pagination summary only (no large buttons) */
+    .pagination-summary {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 13px;
+        color: #444;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+    }
+    .pagination-nav {
+        display: inline-flex;
+        gap: 12px;
+        align-items: center;
+    }
+    .pagination-nav a,
+    .pagination-nav span {
+        color: #667eea;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 13px;
+    }
+    .pagination-nav span.disabled { color: #bbb; }
+    .pagination-info { font-size: 12px; color: #666; }
+
     @media (max-width: 768px) {
         .donor-header {
             flex-direction: column;
@@ -227,8 +253,23 @@
                         </tbody>
                     </table>
 
-                    <div style="margin-top: 20px; text-align: center;">
-                        {{ $donations->links() }}
+                    <div class="pagination-summary">
+                        <div class="pagination-nav">
+                            @if ($donations->previousPageUrl())
+                                <a href="{{ $donations->previousPageUrl() }}">&laquo; Previous</a>
+                            @else
+                                <span class="disabled">&laquo; Previous</span>
+                            @endif
+
+                            @if ($donations->nextPageUrl())
+                                <a href="{{ $donations->nextPageUrl() }}">Next &raquo;</a>
+                            @else
+                                <span class="disabled">Next &raquo;</span>
+                            @endif
+                        </div>
+                        <div class="pagination-info">
+                            Showing {{ $donations->firstItem() }} to {{ $donations->lastItem() }} of {{ $donations->total() }} results
+                        </div>
                     </div>
                 @else
                     <p style="text-align: center; color: #999; padding: 20px;">Belum ada donasi</p>

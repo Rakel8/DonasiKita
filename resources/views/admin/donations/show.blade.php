@@ -149,6 +149,8 @@
 @endsection
 
 @section('content')
+<div class="main-content">
+    <div class="container-fluid">
         <a href="{{ route('admin.donations.index') }}" class="back-link">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
@@ -278,6 +280,7 @@
         </div>
     </div>
 </div>
+@endsection
 
 @section('extra-scripts')
 <script>
